@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Users, 
-  Layers, 
   Building, 
   Cpu, 
   Code, 
@@ -16,14 +15,12 @@ import {
   Award,
   Lightbulb,
   MapPin,
-  MonitorPlay,
-  Server
+  MonitorPlay
 } from "lucide-react";
 
 const stats = [
-  { icon: Users, label: "Оюутан", sub: "Students", value: "100+" },
-  { icon: Layers, label: "Давхар", sub: "Floor", value: "3-р" },
-  { icon: Building, label: "Талбай", sub: "Space", value: "50%" },
+  { icon: Users, label: "Оюутан", sub: "Active Students", value: "100+" },
+  { icon: Building, label: "Талбай", sub: "Half the Floor", value: "50%" },
 ];
 
 const features = [
@@ -45,10 +42,10 @@ const techStack = [
 ];
 
 const rooms = [
-  { id: "301", name: "Хичээлийн танхим 301", capacity: "30 оюутан", equip: "30x i7 Desktop, Ухаалаг самбар", type: "lab" },
-  { id: "302", name: "Хичээлийн танхим 302", capacity: "25 оюутан", equip: "25x iMac, Проектор", type: "lab" },
-  { id: "303", name: "Хичээлийн танхим 303", capacity: "40 оюутан", equip: "Сүлжээний төхөөрөмжүүд, Серверүүд", type: "lab" },
-  { id: "office", name: "Багш нарын өрөө", capacity: "8 багш", equip: "Уулзалтын ширээ, Хэвлэгч", type: "office" }
+  { id: "301", name: "Хичээлийн танхим 301", capacity: "30 оюутан", equip: "30x i7 Desktop, Ухаалаг самбар", type: "lab", photo: "/gallery-1.png" },
+  { id: "302", name: "Хичээлийн танхим 302", capacity: "25 оюутан", equip: "25x iMac, Проектор", type: "lab", photo: "/gallery-2.png" },
+  { id: "303", name: "Хичээлийн танхим 303", capacity: "40 оюутан", equip: "Сүлжээний төхөөрөмжүүд, Серверүүд", type: "lab", photo: "/gallery-4.png" },
+  { id: "304", name: "Хичээлийн танхим 304", capacity: "20 оюутан", equip: "Уулзалтын ширээ, Проектор, Хэвлэгч", type: "lab", photo: "/gallery-6.png" },
 ];
 
 export default function Home() {
@@ -104,7 +101,7 @@ export default function Home() {
       {/* 2. Stats Section */}
       <section className="py-20 relative z-10 bg-background/80 backdrop-blur-lg border-t border-border">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             {stats.map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -190,8 +187,8 @@ export default function Home() {
               <p className="text-secondary text-lg">Орчин үеийн тоног төхөөрөмжөөр бүрэн тоноглогдсон 4 өрөө бүхий академик бааз.</p>
             </div>
             <div className="md:text-right border border-border bg-card p-6 rounded-2xl flex-shrink-0">
-              <p className="text-4xl font-bold text-accent mb-2">3 + 1</p>
-              <p className="text-secondary uppercase tracking-widest text-xs font-semibold">Хичээлийн Танхим / Багш нарын өрөө</p>
+              <p className="text-4xl font-bold text-accent mb-2">4</p>
+              <p className="text-secondary uppercase tracking-widest text-xs font-semibold">Хичээлийн Танхим</p>
             </div>
           </div>
 
@@ -205,15 +202,15 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 border border-primary/20">
                 <Terminal className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-3xl font-bold mb-6">Хичээлийн Танхим (3)</h3>
+              <h3 className="text-3xl font-bold mb-6">Хичээлийн Танхим (301–303)</h3>
               <p className="text-secondary text-lg mb-8 leading-relaxed">
                 Өндөр хүчин чадал бүхий компьютерууд, ухаалаг самбар болон орчин үеийн сургалтын хэрэгслээр тоноглогдсон төрөлжсөн лабораториуд.
               </p>
               <ul className="space-y-4">
                 {[
-                  "Программчлал болон хөгжүүлэлтийн лаборатори",
-                  "Сүлжээ, серверийн лаборатори",
-                  "Ерөнхий зориулалтын мультимедиа танхим"
+                  "301 — Программчлал, хөгжүүлэлтийн лаборатори",
+                  "302 — iMac лаборатори, Проектор",
+                  "303 — Сүлжээ, серверийн лаборатори"
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-4 text-secondary">
                     <div className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_rgba(0,212,255,0.8)]" />
@@ -232,15 +229,15 @@ export default function Home() {
               <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-8 border border-primary/20">
                 <Users className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-3xl font-bold mb-6">Багш Нарын Өрөө (1)</h3>
+              <h3 className="text-3xl font-bold mb-6">Хичээлийн Танхим 304</h3>
               <p className="text-secondary text-lg mb-8 leading-relaxed">
-                Оюутнуудтай ганцаарчлан уулзах, зөвлөгөө өгөх, эрдэм шинжилгээний ажил хийхэд зориулагдсан орчин үеийн тохилог орчин.
+                Уулзалт, хэлэлцүүлэг, танилцуулга болон жижиг бүлгийн хичээлд зориулагдсан орчин үеийн тохилог танхим.
               </p>
               <ul className="space-y-4">
                 {[
-                  "Мэргэжлийн зөвлөх багш нарын хэсэг",
-                  "Нээлттэй хэлэлцүүлэг, төслийн уулзалтын хэсэг",
-                  "Судалгаа шинжилгээний бааз"
+                  "Уулзалтын ширээ, Проектор",
+                  "Нээлттэй хэлэлцүүлэг, төслийн танилцуулга",
+                  "Багтаамж: 20 оюутан"
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-4 text-secondary">
                     <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(37,99,235,0.8)]" />
@@ -379,8 +376,19 @@ export default function Home() {
                   >
                     <div className="absolute top-0 right-0 w-24 h-24 bg-accent/10 rounded-bl-full -z-10" />
                     
-                    <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-6 border border-primary/30">
-                      {activeRoom.type === 'lab' ? <MonitorPlay className="w-6 h-6 text-accent" /> : <Users className="w-6 h-6 text-accent" />}
+                    {activeRoom.photo && (
+                      <div className="relative w-full h-44 rounded-xl overflow-hidden mb-6 border border-primary/20">
+                        <img
+                          src={activeRoom.photo}
+                          alt={activeRoom.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                      </div>
+                    )}
+
+                    <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4 border border-primary/30">
+                      <MonitorPlay className="w-6 h-6 text-accent" />
                     </div>
                     
                     <h3 className="text-2xl font-bold mb-2">{activeRoom.name}</h3>
@@ -410,14 +418,14 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="mt-16 flex items-center justify-center gap-6 text-sm text-secondary font-medium">
+          <div className="mt-16 flex items-center justify-center gap-8 text-sm text-secondary font-medium flex-wrap">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-card border border-primary/30 rounded" />
-              <span>Хичээлийн танхим</span>
+              <span>Хичээлийн танхим (301–304)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-primary/40 border border-accent shadow-[0_0_10px_rgba(0,212,255,0.4)] rounded" />
-              <span>Сонгогдсон</span>
+              <span>Сонгогдсон өрөө</span>
             </div>
           </div>
         </div>

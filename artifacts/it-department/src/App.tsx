@@ -10,7 +10,6 @@ import Schedule from "@/pages/schedule";
 import Gallery from "@/pages/gallery";
 import Announcements from "@/pages/announcements";
 import Info from "@/pages/info";
-import Teacher from "@/pages/teacher";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
@@ -24,7 +23,6 @@ function Router() {
       <Route path="/gallery" component={Gallery} />
       <Route path="/announcements" component={Announcements} />
       <Route path="/info" component={Info} />
-      <Route path="/teacher" component={Teacher} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>

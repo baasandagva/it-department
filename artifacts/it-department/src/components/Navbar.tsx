@@ -9,7 +9,6 @@ const links = [
   { href: "/gallery", label: "Зургийн цомог" },
   { href: "/announcements", label: "Мэдэгдэл" },
   { href: "/info", label: "Мэдээлэл" },
-  { href: "/teacher", label: "Багшийн булан" }
 ];
 
 export function Navbar() {
