@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Code } from "lucide-react";
+import { Menu, X, Code, Settings } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
@@ -39,6 +39,9 @@ export function Navbar() {
               </Link>
             )
           })}
+          <Link href="/admin" className={`text-xs font-medium transition-colors hover:text-destructive flex items-center gap-1 opacity-70 hover:opacity-100 ${location === '/admin' ? 'text-destructive opacity-100' : 'text-secondary'}`}>
+            <Settings className="w-3 h-3" /> Admin
+          </Link>
         </div>
         
         <button className="md:hidden text-secondary hover:text-accent" onClick={() => setIsOpen(!isOpen)}>
@@ -68,6 +71,9 @@ export function Navbar() {
                   </Link>
                 )
               })}
+              <Link href="/admin" onClick={() => setIsOpen(false)} className={`text-sm font-medium flex items-center gap-2 ${location === '/admin' ? 'text-destructive' : 'text-secondary'}`}>
+                <Settings className="w-4 h-4" /> Admin
+              </Link>
             </div>
           </motion.div>
         )}

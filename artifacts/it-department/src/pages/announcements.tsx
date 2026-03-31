@@ -1,61 +1,16 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Calendar, User, Paperclip, ChevronRight } from "lucide-react";
+import { useStore, Announcement } from "@/lib/store";
 
 type Category = "Бүгд" | "Ерөнхий" | "Хурал" | "Шалгалт";
 
-const announcements = [
-  {
-    id: 1,
-    title: "2025-2026 оны хичээлийн жилийн 2-р улирлын шалгалтын хуваарь",
-    date: "2025-05-10",
-    category: "Шалгалт",
-    author: "Сургалтын алба",
-    content: "Энэ улирлын нэгдсэн шалгалт 5 сарын 20-ноос эхлэн 14 хоног үргэлжлэх тул оюутнууд хуваариа цаг тухайд нь шалгана уу.",
-    hasAttachment: true
-  },
-  {
-    id: 2,
-    title: "МТ Тэнхимийн багш нарын хурал",
-    date: "2025-04-28",
-    category: "Хурал",
-    author: "Тэнхимийн эрхлэгч",
-    content: "МТ Тэнхимийн ээлжит хурал 5 сарын 1-ний 15:00 цагт 301 тоотод болно. Бүх багш нар цагтаа ирнэ үү.",
-    hasAttachment: false
-  },
-  {
-    id: 3,
-    title: "Дипломын ажлын удирдамж шинэчлэгдлээ",
-    date: "2025-04-15",
-    category: "Ерөнхий",
-    author: "Академик зөвлөл",
-    content: "Төгсөх ангийн оюутнууд дипломын ажлын шинэчилсэн удирдамжтай танилцаж, форматаа нийцүүлэн засна уу.",
-    hasAttachment: true
-  },
-  {
-    id: 4,
-    title: "Интернет хичээлийн цаг өөрчлөгдлөө",
-    date: "2025-03-20",
-    category: "Ерөнхий",
-    author: "Сургалтын алба",
-    content: "3-р курсын Сүлжээний хичээлийн цаг Даваа гарагийн 11:20 болж урагшиллаа.",
-    hasAttachment: false
-  },
-  {
-    id: 5,
-    title: "Хаврын шалгалт - хуваарь",
-    date: "2025-02-15",
-    category: "Шалгалт",
-    author: "Сургалтын алба",
-    content: "Хаврын улирлын завсрын шалгалтын хуваарь гарлаа. Оюутны вэбээр орж шалгана уу.",
-    hasAttachment: true
-  }
-];
-
 export default function Announcements() {
   const [activeCategory, setActiveCategory] = useState<Category>("Бүгд");
+  const store = useStore();
 
-  const filtered = announcements.filter(a => activeCategory === "Бүгд" || a.category === activeCategory);
+  const sortedAnnouncements = [...store.announcements].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const filtered = sortedAnnouncements.filter(a => activeCategory === "Бүгд" || a.category === activeCategory);
 
   return (
     <div className="py-12 flex-1 container mx-auto px-4 md:px-6 max-w-4xl">
@@ -119,7 +74,7 @@ export default function Announcements() {
               </div>
 
               <h2 className="text-xl md:text-2xl font-bold mb-3">{item.title}</h2>
-              <p className="text-secondary leading-relaxed mb-6">
+              <p className="text-secondary leading-relaxed mb-6 whitespace-pre-wrap">
                 {item.content}
               </p>
 

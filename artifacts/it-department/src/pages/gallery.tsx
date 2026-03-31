@@ -1,18 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn } from "lucide-react";
-
-const images = [
-  { id: 1, src: "/gallery-1.png", title: "МТ Тэнхимийн лаборатори", date: "2025-01-10", desc: "Орчин үеийн компьютерээр тоноглогдсон сургалтын орчин." },
-  { id: 2, src: "/gallery-2.png", title: "Код бичих орчин", date: "2025-01-12", desc: "Оюутнууд өгөгдсөн даалгавар дээр багаар ажиллаж байна." },
-  { id: 3, src: "/gallery-3.png", title: "Тэнхимийн коридор", date: "2025-01-15", desc: "Сургуулийн байрны интерьер дизайн." },
-  { id: 4, src: "/gallery-4.png", title: "Төслийн танилцуулга", date: "2025-01-18", desc: "Дипломын төслийн урьдчилсан хамгаалалт." },
-  { id: 5, src: "/gallery-5.png", title: "Программчлал", date: "2025-02-01", desc: "Хичээлийн үеэрх практик дадлага." },
-  { id: 6, src: "/gallery-6.png", title: "Серверийн өрөө", date: "2025-02-05", desc: "Сүлжээ, дата төвийн дадлагын бааз." },
-];
+import { useStore, GalleryItem } from "@/lib/store";
 
 export default function Gallery() {
-  const [selectedImg, setSelectedImg] = useState<typeof images[0] | null>(null);
+  const [selectedImg, setSelectedImg] = useState<GalleryItem | null>(null);
+  const store = useStore();
 
   return (
     <div className="py-12 flex-1 container mx-auto px-4 md:px-6">
@@ -26,7 +19,7 @@ export default function Gallery() {
       </motion.div>
 
       <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-        {images.map((img, i) => (
+        {store.gallery.map((img, i) => (
           <motion.div
             key={img.id}
             initial={{ opacity: 0, scale: 0.9 }}
@@ -40,7 +33,7 @@ export default function Gallery() {
             >
               <div className="aspect-[4/3] w-full bg-muted">
                 <img 
-                  src={img.src} 
+                  src={img.imageUrl} 
                   alt={img.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
@@ -77,13 +70,13 @@ export default function Gallery() {
               className="max-w-5xl w-full bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-full md:w-2/3 bg-black">
-                <img src={selectedImg.src} alt={selectedImg.title} className="w-full h-full object-contain max-h-[70vh]" />
+              <div className="w-full md:w-2/3 bg-black flex items-center justify-center">
+                <img src={selectedImg.imageUrl} alt={selectedImg.title} className="max-w-full max-h-[70vh] object-contain" />
               </div>
-              <div className="w-full md:w-1/3 p-8 flex flex-col">
+              <div className="w-full md:w-1/3 p-8 flex flex-col bg-card">
                 <h2 className="text-2xl font-bold mb-2">{selectedImg.title}</h2>
                 <p className="text-accent text-sm mb-6">{selectedImg.date}</p>
-                <p className="text-secondary leading-relaxed flex-1">{selectedImg.desc}</p>
+                <p className="text-secondary leading-relaxed flex-1">{selectedImg.description}</p>
               </div>
             </motion.div>
           </motion.div>

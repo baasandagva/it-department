@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Users, 
-  Monitor, 
   Layers, 
   Building, 
   Cpu, 
@@ -13,15 +13,15 @@ import {
   Network, 
   ChevronDown,
   Shield,
-  Server,
-  Smartphone,
   Award,
-  Lightbulb
+  Lightbulb,
+  MapPin,
+  MonitorPlay,
+  Server
 } from "lucide-react";
 
 const stats = [
   { icon: Users, label: "Оюутан", sub: "Students", value: "100+" },
-  { icon: Monitor, label: "Өрөө", sub: "3 Classrooms + 1 Faculty", value: "4" },
   { icon: Layers, label: "Давхар", sub: "Floor", value: "3-р" },
   { icon: Building, label: "Талбай", sub: "Space", value: "50%" },
 ];
@@ -44,7 +44,16 @@ const techStack = [
   { name: "Figma", type: "Design" }
 ];
 
+const rooms = [
+  { id: "301", name: "Хичээлийн танхим 301", capacity: "30 оюутан", equip: "30x i7 Desktop, Ухаалаг самбар", type: "lab" },
+  { id: "302", name: "Хичээлийн танхим 302", capacity: "25 оюутан", equip: "25x iMac, Проектор", type: "lab" },
+  { id: "303", name: "Хичээлийн танхим 303", capacity: "40 оюутан", equip: "Сүлжээний төхөөрөмжүүд, Серверүүд", type: "lab" },
+  { id: "office", name: "Багш нарын өрөө", capacity: "8 багш", equip: "Уулзалтын ширээ, Хэвлэгч", type: "office" }
+];
+
 export default function Home() {
+  const [activeRoom, setActiveRoom] = useState<typeof rooms[0] | null>(null);
+
   return (
     <div className="min-h-[100dvh] bg-background text-foreground overflow-x-hidden selection:bg-primary/30">
       
@@ -95,7 +104,7 @@ export default function Home() {
       {/* 2. Stats Section */}
       <section className="py-20 relative z-10 bg-background/80 backdrop-blur-lg border-t border-border">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {stats.map((stat, idx) => (
               <motion.div
                 key={idx}
@@ -295,7 +304,126 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Location Banner */}
+      {/* 8. Floor Map Section */}
+      <section className="py-32 bg-card border-t border-border relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center mb-24">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 uppercase text-gradient">Тэнхимийн Газрын Зураг</h2>
+            <p className="text-secondary text-lg uppercase tracking-widest flex items-center justify-center gap-2">
+              <MapPin className="w-5 h-5 text-accent" />
+              4-р байр, 3-р давхар
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-16 items-center justify-center min-h-[500px]">
+            {/* 3D Isometric View */}
+            <div className="relative w-full max-w-[600px] h-[400px] perspective-[1200px]">
+              <motion.div 
+                className="w-full h-full relative"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: "rotateX(60deg) rotateZ(-45deg)"
+                }}
+              >
+                {/* Floor base */}
+                <div className="absolute inset-0 bg-background/50 border-2 border-primary/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" />
+                <div className="absolute inset-x-0 bottom-0 h-4 bg-primary/10 translate-y-full origin-top" style={{ transform: "rotateX(-90deg)" }} />
+                <div className="absolute inset-y-0 right-0 w-4 bg-primary/5 translate-x-full origin-left" style={{ transform: "rotateY(90deg)" }} />
+                
+                {/* Corridors (Decorative) */}
+                <div className="absolute top-[30%] bottom-0 left-[40%] w-[20%] bg-primary/5 border-x border-dashed border-primary/20" />
+                
+                {/* Rooms Grid */}
+                <div className="absolute inset-4 grid grid-cols-2 grid-rows-2 gap-8">
+                  {rooms.map((room, i) => (
+                    <motion.div
+                      key={room.id}
+                      onClick={() => setActiveRoom(room)}
+                      onHoverStart={() => !activeRoom && setActiveRoom(room)}
+                      className={`relative cursor-pointer transition-all duration-300 ${activeRoom?.id === room.id ? 'z-20' : 'z-10'}`}
+                      style={{
+                        transformStyle: "preserve-3d",
+                      }}
+                      whileHover={{ translateZ: 30 }}
+                      animate={{ translateZ: activeRoom?.id === room.id ? 40 : 0 }}
+                    >
+                      {/* Room Top */}
+                      <div className={`absolute inset-0 border border-primary/30 flex items-center justify-center shadow-lg transition-colors duration-300 ${activeRoom?.id === room.id ? 'bg-primary/40 shadow-[0_0_30px_rgba(0,212,255,0.4)] border-accent' : 'bg-card/80 hover:bg-primary/20'}`}>
+                        <span className="font-bold text-xl md:text-3xl text-foreground/80 transform -rotate-12 select-none">
+                          {room.id}
+                        </span>
+                      </div>
+                      
+                      {/* 3D Walls */}
+                      <div className={`absolute inset-x-0 bottom-0 h-12 origin-top transition-colors duration-300 ${activeRoom?.id === room.id ? 'bg-primary/60 border-accent' : 'bg-background border-primary/30'} border`} style={{ transform: "rotateX(-90deg)" }} />
+                      <div className={`absolute inset-y-0 right-0 w-12 origin-left transition-colors duration-300 ${activeRoom?.id === room.id ? 'bg-primary/50 border-accent' : 'bg-card border-primary/30'} border`} style={{ transform: "rotateY(90deg)" }} />
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Room Details Panel */}
+            <div className="w-full lg:w-[400px] flex-shrink-0">
+              <AnimatePresence mode="wait">
+                {activeRoom ? (
+                  <motion.div
+                    key={activeRoom.id}
+                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                    className="glow-card bg-background border border-accent/50 p-8 rounded-2xl shadow-[0_0_40px_rgba(0,212,255,0.1)] relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-accent/10 rounded-bl-full -z-10" />
+                    
+                    <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-6 border border-primary/30">
+                      {activeRoom.type === 'lab' ? <MonitorPlay className="w-6 h-6 text-accent" /> : <Users className="w-6 h-6 text-accent" />}
+                    </div>
+                    
+                    <h3 className="text-2xl font-bold mb-2">{activeRoom.name}</h3>
+                    <div className="w-12 h-1 bg-accent mb-6 rounded-full" />
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm text-secondary uppercase tracking-wider mb-1">Багтаамж</p>
+                        <p className="text-lg font-medium">{activeRoom.capacity}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-secondary uppercase tracking-wider mb-1">Тоног төхөөрөмж</p>
+                        <p className="text-lg font-medium">{activeRoom.equip}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="h-full flex items-center justify-center p-8 border border-dashed border-border rounded-2xl text-center"
+                  >
+                    <p className="text-secondary">Газрын зураг дээрх өрөөг дарж дэлгэрэнгүй мэдээлэл харна уу.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+          
+          <div className="mt-16 flex items-center justify-center gap-6 text-sm text-secondary font-medium">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-card border border-primary/30 rounded" />
+              <span>Хичээлийн танхим</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-primary/40 border border-accent shadow-[0_0_10px_rgba(0,212,255,0.4)] rounded" />
+              <span>Сонгогдсон</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. Location Banner */}
       <section className="py-32 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] opacity-10 bg-cover bg-center mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/40" />
@@ -326,7 +454,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. Footer */}
+      {/* 10. Footer */}
       <footer className="py-12 bg-background border-t border-border text-center text-secondary text-sm">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
