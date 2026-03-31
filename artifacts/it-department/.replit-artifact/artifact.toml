@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "IT Department - Идэр ИС МТ Тэнхим"
+version = "1.0.0"
+id = "artifacts/it-department"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23346
+
+[services.development]
+run = "pnpm --filter @workspace/it-department run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/it-department", "run", "build" ]
+publicDir = "artifacts/it-department/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23346"
+BASE_PATH = "/"

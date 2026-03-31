@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "KOJTGKL4luRTfIemXqotq"
+uri = "file://artifacts/it-department/public/hero.png"
+type = "image"
+title = "High-tech university IT lab"
