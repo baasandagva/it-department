@@ -6,3 +6,39 @@ id = "KOJTGKL4luRTfIemXqotq"
 uri = "file://artifacts/it-department/public/hero.png"
 type = "image"
 title = "High-tech university IT lab"
+
+[[generated]]
+id = "jhyYNxUilq-JukADn6Tov"
+uri = "file://artifacts/it-department/public/gallery-1.png"
+type = "image"
+title = "IT classroom with computers"
+
+[[generated]]
+id = "uR-emyf-kknMJUyBvbD6t"
+uri = "file://artifacts/it-department/public/gallery-2.png"
+type = "image"
+title = "Computer lab with monitors"
+
+[[generated]]
+id = "n35jfusxqiIyLGaDKAJS5"
+uri = "file://artifacts/it-department/public/gallery-3.png"
+type = "image"
+title = "Modern hallway interior"
+
+[[generated]]
+id = "BQdFCOfzMbpYXJ1iRIod_"
+uri = "file://artifacts/it-department/public/gallery-4.png"
+type = "image"
+title = "Students presenting project"
+
+[[generated]]
+id = "kDO4UGADj6L5tIxlreY9Z"
+uri = "file://artifacts/it-department/public/gallery-5.png"
+type = "image"
+title = "Programmer hands on keyboard"
+
+[[generated]]
+id = "xVNMB80hMp6dwU33sXaz0"
+uri = "file://artifacts/it-department/public/gallery-6.png"
+type = "image"
+title = "Server room equipment rack"
