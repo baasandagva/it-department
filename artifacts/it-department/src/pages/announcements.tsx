@@ -28,11 +28,10 @@ export default function Announcements() {
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-              activeCategory === cat 
-              ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(37,99,235,0.4)]" 
-              : "bg-card border border-border text-secondary hover:text-foreground hover:border-primary/50"
-            }`}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${activeCategory === cat
+                ? "bg-primary text-primary-foreground shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+                : "bg-card border border-border text-secondary hover:text-foreground hover:border-primary/50"
+              }`}
           >
             {cat}
           </button>
@@ -90,11 +89,11 @@ export default function Announcements() {
             </motion.div>
           ))}
         </AnimatePresence>
-        
+
         {filtered.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="text-center py-20 text-secondary"
           >
             Мэдээлэл олдсонгүй.

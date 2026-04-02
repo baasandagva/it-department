@@ -1,0 +1,52 @@
+﻿
+> @workspace/it-department@0.0.0 dev C:\Users\USER\Desktop\IT-Department-Showcase\artifacts\it-department
+> vite --config vite.config.ts --host 0.0.0.0
+
+node.exe : [31mfailed to load config from 
+C:\Users\USER\Desktop\IT-Department-Showcas
+e\artifacts\it-department\vite.config.ts[3
+9m
+At C:\Users\USER\AppData\Roaming\npm\pnpm.p
+s1:24 char:5
++     & "node$exe"  
+"$basedir/node_modules/pnpm/bin/pnpm.cjs" 
+$args
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : 
+NotSpecified: (    [31mfailed to 
+....config.ts[39m:String)     [], 
+RemoteException
+    + FullyQualifiedErrorId : 
+NativeCommandEr    ror
+ 
+[31merror when starting dev server:
+Error: Cannot find native binding. npm has 
+a bug related to optional dependencies 
+(https://github.com/npm/cli/issues/4828). 
+Please try `npm i` again after removing 
+both package-lock.json and node_modules 
+directory.
+    at Object.<anonymous> (C:\Users\USER\De
+sktop\IT-Department-Showcase\node_modules\.
+pnpm\@tailwindcss+oxide@4.2.1\node_modules\
+@tailwindcss\oxide\index.js:559:11)
+    at Module._compile 
+(node:internal/modules/cjs/loader:1565:14)
+    at Object..js 
+(node:internal/modules/cjs/loader:1708:10)
+    at Module.load 
+(node:internal/modules/cjs/loader:1318:32)
+    at Function._load 
+(node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync 
+(node:diagnostics_channel:322:14)
+    at wrapModuleLoad 
+(node:internal/modules/cjs/loader:219:24)
+    at cjsLoader (node:internal/modules/esm
+/translators:263:5)
+    at ModuleWrap.<anonymous> (node:interna
+l/modules/esm/translators:196:7)
+    at ModuleJob.run (node:internal/modules
+/esm/module_job:271:25)[39m
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.

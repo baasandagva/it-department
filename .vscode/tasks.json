@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "npmservedev",
+            "type": "shell",
+            "command": "pnpm dev",
+            "options": {
+                "cwd": "${workspaceFolder}/artifacts/it-department"
+            },
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".",
+                            "file": 1,
+                            "location": 2,
+                            "message": 3
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".*",
+                        "endsPattern": ".*ready in.*"
+                    }
+                }
+            ],
+            "presentation": {
+                "clear": true,
+                "panel": "shared",
+                "reveal": "always"
+            }
+        }
+    ]
+}

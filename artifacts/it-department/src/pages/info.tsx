@@ -23,7 +23,7 @@ export default function Info() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
         {/* Contact Card */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -50,7 +50,7 @@ export default function Info() {
         </motion.div>
 
         {/* Stats Card */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -68,7 +68,7 @@ export default function Info() {
             <div>
               <div className="flex items-center gap-3 mb-2 text-secondary">
                 <Clock className="w-5 h-5" />
-                <span className="font-medium uppercase tracking-wider text-sm">Цгийн хуваарь</span>
+                <span className="font-medium uppercase tracking-wider text-sm">Цагийн хуваарь</span>
               </div>
               <p className="text-xl font-bold mt-2">Даваа - Бямба</p>
               <p className="text-accent">08:00 - 17:00</p>
@@ -87,7 +87,7 @@ export default function Info() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Faculty */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -115,7 +115,7 @@ export default function Info() {
         </motion.div>
 
         {/* Academic Calendar */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -144,7 +144,7 @@ export default function Info() {
       </div>
 
       {/* Rules */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
