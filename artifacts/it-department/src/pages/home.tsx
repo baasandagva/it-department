@@ -462,7 +462,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 10. Footer */}
+      {/* 10. Footer
       <footer className="py-12 bg-background border-t border-border text-center text-secondary text-sm">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
@@ -480,7 +480,7 @@ export default function Home() {
             <span className="hover:text-accent cursor-pointer transition-colors">Website</span>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 }

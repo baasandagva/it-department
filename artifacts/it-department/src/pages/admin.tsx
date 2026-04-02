@@ -156,7 +156,7 @@ export default function Admin() {
               Нэвтрэх
             </button>
           </form>
-          <p className="text-center text-xs text-secondary mt-6">Жишээ ПИН: 9999</p>
+          {/* <p className="text-center text-xs text-secondary mt-6"></p> */}
         </motion.div>
       </div>
     );
