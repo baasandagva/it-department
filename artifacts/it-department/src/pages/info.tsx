@@ -36,15 +36,15 @@ export default function Info() {
           <div className="space-y-4">
             <div className="flex items-center gap-4 text-secondary">
               <Phone className="w-5 h-5 text-accent" />
-              <span>+976 7777-1234</span>
+              <span>+976 86423060</span>
             </div>
             <div className="flex items-center gap-4 text-secondary">
               <Mail className="w-5 h-5 text-accent" />
-              <span>it-dept@ider.edu.mn</span>
+              <span>d.majigsuren@ider.edu.mn</span>
             </div>
             <div className="flex items-center gap-4 text-secondary">
               <MapPin className="w-5 h-5 text-accent" />
-              <span>Улаанбаатар хот, СБД 8-р хороо, Идэр Их Сургууль, 4-р байр 3 давхар</span>
+              <span>Улаанбаатар хот, СБД 8-р хороо, Идэр Их Сургууль, Багшийн Сургуулийн 3 давхар</span>
             </div>
           </div>
         </motion.div>
