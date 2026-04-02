@@ -432,7 +432,7 @@ export default function Home() {
       </section>
 
       {/* 9. Location Banner */}
-      <section className="py-32 bg-primary relative overflow-hidden">
+      {/* <section className="py-32 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')] opacity-10 bg-cover bg-center mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/90 to-primary/40" />
 
@@ -460,9 +460,9 @@ export default function Home() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
-      {/* 10. Footer
+      {/* 10. Footer */}
       <footer className="py-12 bg-background border-t border-border text-center text-secondary text-sm">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3">
@@ -480,7 +480,7 @@ export default function Home() {
             <span className="hover:text-accent cursor-pointer transition-colors">Website</span>
           </div>
         </div>
-      </footer> */}
+      </footer>
     </div>
   );
 }
