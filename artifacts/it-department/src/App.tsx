@@ -1,8 +1,10 @@
+import { useEffect } from "react"; // 1. useEffect-ийг нэмж импортлох
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/Navbar";
+import { useStore } from "@/lib/store"; // 2. useStore-ийг импортлох
 
 import Home from "@/pages/home";
 import Schedule from "@/pages/schedule";
@@ -29,6 +31,14 @@ function Router() {
 }
 
 function App() {
+  // 3. Датаг татах функцыг store-оос дуудаж гаргах
+  const fetchInitialData = useStore((state) => state.fetchInitialData);
+
+  // 4. Вэб сайт анх ачааллах үед сервер рүү дата хүсэлт явуулах
+  useEffect(() => {
+    fetchInitialData();
+  }, [fetchInitialData]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

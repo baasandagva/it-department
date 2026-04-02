@@ -1,5 +1,8 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import axios from 'axios';
+
+// Render дээрх чиний Backend хаяг
+const API_URL = "https://it-department-8v6p.onrender.com/api";
 
 // --- Interfaces ---
 export interface Student {
@@ -9,10 +12,7 @@ export interface Student {
   year: 1 | 2 | 3 | 4;
   phone?: string;
   email?: string;
-  tuitionAmount?: number;
   tuitionStatus: "Төлсөн" | "Төлөөгүй" | "Хэсэгчлэн";
-  tuitionDue?: string;
-  paidAmount?: number;
   registeredAt: string;
 }
 
@@ -21,26 +21,13 @@ export interface Teacher {
   name: string;
   title: string;
   subject: string;
-  phone: string;
-  email: string;
   registeredAt: string;
 }
 
 export interface Announcement {
   id: string;
   title: string;
-  category: "Ерөнхий" | "Хурал" | "Шалгалт";
   content: string;
-  author: string;
-  date: string;
-  hasAttachment: boolean;
-}
-
-export interface GalleryItem {
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
   date: string;
 }
 
@@ -51,7 +38,6 @@ export interface ScheduleEntry {
   type: "primary" | "accent" | "muted";
 }
 
-// Хичээлийн хуваарийн бүтэц: Курс -> Гараг -> Цаг
 export interface FullSchedule {
   [year: number]: {
     [day: string]: {
@@ -64,57 +50,85 @@ interface SchoolStore {
   students: Student[];
   teachers: Teacher[];
   announcements: Announcement[];
-  gallery: GalleryItem[];
   schedule: FullSchedule;
+  isLoading: boolean;
 
-  // Оюутан
-  addStudent: (student: Student) => void;
-  updateStudent: (id: string, data: Partial<Student>) => void;
-  deleteStudent: (id: string) => void;
-
-  // Багш
-  addTeacher: (teacher: Teacher) => void;
-  deleteTeacher: (id: string) => void;
-
-  // Мэдэгдэл
-  addAnnouncement: (ann: Announcement) => void;
-  deleteAnnouncement: (id: string) => void;
-
-  // Цомог
-  addGalleryItem: (item: GalleryItem) => void;
-  deleteGalleryItem: (id: string) => void;
-
-  // Хуваарь
-  updateSchedule: (year: number, day: string, time: string, entry: ScheduleEntry) => void;
-  deleteScheduleEntry: (year: number, day: string, time: string) => void; // Шинээр нэмэгдсэн
+  fetchInitialData: () => Promise<void>;
+  addStudent: (student: Student) => Promise<void>;
+  deleteStudent: (id: string) => Promise<void>;
+  addTeacher: (teacher: Teacher) => Promise<void>;
+  deleteTeacher: (id: string) => Promise<void>;
+  updateSchedule: (year: number, day: string, time: string, entry: ScheduleEntry) => Promise<void>;
+  deleteScheduleEntry: (year: number, day: string, time: string) => Promise<void>;
 }
 
-export const useStore = create<SchoolStore>()(
-  persist(
-    (set) => ({
-      students: [],
-      teachers: [],
-      announcements: [],
-      gallery: [],
-      schedule: {},
+export const useStore = create<SchoolStore>((set, get) => ({
+  students: [],
+  teachers: [],
+  announcements: [],
+  schedule: {},
+  isLoading: false,
 
-      addStudent: (s) => set((state) => ({ students: [...state.students, s] })),
-      updateStudent: (id, data) => set((state) => ({
-        students: state.students.map(s => s.id === id ? { ...s, ...data } : s)
-      })),
-      deleteStudent: (id) => set((state) => ({ students: state.students.filter(s => s.id !== id) })),
+  fetchInitialData: async () => {
+    set({ isLoading: true });
+    try {
+      const [stRes, tcRes, schRes] = await Promise.all([
+        axios.get(`${API_URL}/students`),
+        axios.get(`${API_URL}/teachers`),
+        axios.get(`${API_URL}/schedule`)
+      ]);
+      set({
+        students: stRes.data || [],
+        teachers: tcRes.data || [],
+        schedule: schRes.data || {},
+        isLoading: false
+      });
+    } catch (error) {
+      console.error("Дата татахад алдаа гарлаа:", error);
+      set({ isLoading: false });
+    }
+  },
 
-      addTeacher: (t) => set((state) => ({ teachers: [...state.teachers, t] })),
-      deleteTeacher: (id) => set((state) => ({ teachers: state.teachers.filter(t => t.id !== id) })),
+  addStudent: async (student) => {
+    try {
+      const res = await axios.post(`${API_URL}/students`, student);
+      set((state) => ({ students: [...state.students, res.data] }));
+    } catch (error) {
+      console.error("Оюутан нэмэхэд алдаа гарлаа");
+    }
+  },
 
-      addAnnouncement: (a) => set((state) => ({ announcements: [a, ...state.announcements] })),
-      deleteAnnouncement: (id) => set((state) => ({ announcements: state.announcements.filter(a => a.id !== id) })),
+  deleteStudent: async (id) => {
+    try {
+      await axios.delete(`${API_URL}/students/${id}`);
+      set((state) => ({ students: state.students.filter(s => s.id !== id) }));
+    } catch (error) {
+      console.error("Устгахад алдаа гарлаа");
+    }
+  },
 
-      addGalleryItem: (item) => set((state) => ({ gallery: [item, ...state.gallery] })),
-      deleteGalleryItem: (id) => set((state) => ({ gallery: state.gallery.filter(g => g.id !== id) })),
+  addTeacher: async (teacher) => {
+    try {
+      const res = await axios.post(`${API_URL}/teachers`, teacher);
+      set((state) => ({ teachers: [...state.teachers, res.data] }));
+    } catch (error) {
+      console.error("Багш нэмэхэд алдаа гарлаа");
+    }
+  },
 
-      // Хуваарь шинэчлэх эсвэл нэмэх
-      updateSchedule: (year, day, time, entry) => set((state) => ({
+  deleteTeacher: async (id) => {
+    try {
+      await axios.delete(`${API_URL}/teachers/${id}`);
+      set((state) => ({ teachers: state.teachers.filter(t => t.id !== id) }));
+    } catch (error) {
+      console.error("Багш устгахад алдаа гарлаа");
+    }
+  },
+
+  updateSchedule: async (year, day, time, entry) => {
+    try {
+      await axios.post(`${API_URL}/schedule`, { year, day, time, ...entry });
+      set((state) => ({
         schedule: {
           ...state.schedule,
           [year]: {
@@ -125,24 +139,22 @@ export const useStore = create<SchoolStore>()(
             }
           }
         }
-      })),
+      }));
+    } catch (error) {
+      console.error("Хуваарь шинэчлэхэд алдаа гарлаа");
+    }
+  },
 
-      // Хуваарь устгах функц (БҮРЭН ЗАССАН)
-      deleteScheduleEntry: (year, day, time) => set((state) => {
-        const newSchedule = { ...state.schedule };
-        if (newSchedule[year] && newSchedule[year][day]) {
-          // Тухайн цаг дээрх хичээлийг устгах
-          const updatedDay = { ...newSchedule[year][day] };
-          delete updatedDay[time];
-
-          newSchedule[year] = {
-            ...newSchedule[year],
-            [day]: updatedDay
-          };
-        }
-        return { schedule: newSchedule };
-      }),
-    }),
-    { name: 'school-data-storage' }
-  )
-);
+  deleteScheduleEntry: async (year, day, time) => {
+    try {
+      await axios.delete(`${API_URL}/schedule/${year}/${day}/${time}`);
+      const currentSchedule = { ...get().schedule };
+      if (currentSchedule[year]?.[day]) {
+        delete currentSchedule[year][day][time];
+        set({ schedule: currentSchedule });
+      }
+    } catch (error) {
+      console.error("Хуваарь устгахад алдаа гарлаа");
+    }
+  }
+}));
