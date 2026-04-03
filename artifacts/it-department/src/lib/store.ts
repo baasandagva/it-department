@@ -27,7 +27,18 @@ export interface Teacher {
 export interface Announcement {
   id: string;
   title: string;
+  category: "Ерөнхий" | "Хурал" | "Шалгалт";
   content: string;
+  author: string;
+  date: string;
+  hasAttachment?: boolean;
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
   date: string;
 }
 
@@ -51,6 +62,7 @@ interface SchoolStore {
   teachers: Teacher[];
   announcements: Announcement[];
   schedule: FullSchedule;
+  gallery: GalleryItem[];
   isLoading: boolean;
 
   fetchInitialData: () => Promise<void>;
@@ -60,27 +72,38 @@ interface SchoolStore {
   deleteTeacher: (id: string) => Promise<void>;
   updateSchedule: (year: number, day: string, time: string, entry: ScheduleEntry) => Promise<void>;
   deleteScheduleEntry: (year: number, day: string, time: string) => Promise<void>;
+  
+  // Storage operations
+  addAnnouncement: (ann: Announcement) => Promise<void>;
+  deleteAnnouncement: (id: string) => Promise<void>;
+  addGalleryItem: (item: GalleryItem) => Promise<void>;
+  deleteGalleryItem: (id: string) => Promise<void>;
 }
 
 export const useStore = create<SchoolStore>((set, get) => ({
   students: [],
   teachers: [],
   announcements: [],
+  gallery: [],
   schedule: {},
   isLoading: false,
 
   fetchInitialData: async () => {
     set({ isLoading: true });
     try {
-      const [stRes, tcRes, schRes] = await Promise.all([
+        const [stRes, tcRes, schRes, annRes, galRes] = await Promise.all([
         axios.get(`${API_URL}/students`),
         axios.get(`${API_URL}/teachers`),
-        axios.get(`${API_URL}/schedule`)
+        axios.get(`${API_URL}/schedule`),
+        axios.get(`${API_URL}/announcements`).catch(() => ({ data: [] })),
+        axios.get(`${API_URL}/gallery`).catch(() => ({ data: [] }))
       ]);
       set({
         students: stRes.data || [],
         teachers: tcRes.data || [],
         schedule: schRes.data || {},
+        announcements: annRes.data || [],
+        gallery: galRes.data || [],
         isLoading: false
       });
     } catch (error) {
@@ -155,6 +178,42 @@ export const useStore = create<SchoolStore>((set, get) => ({
       }
     } catch (error) {
       console.error("Хуваарь устгахад алдаа гарлаа");
+    }
+  },
+
+  addAnnouncement: async (ann) => {
+    try {
+      const res = await axios.post(`${API_URL}/announcements`, ann);
+      set((state) => ({ announcements: [res.data, ...state.announcements] }));
+    } catch (error) {
+      console.error("Мэдэгдэл нэмэхэд алдаа гарлаа", error);
+    }
+  },
+
+  deleteAnnouncement: async (id) => {
+    try {
+      await axios.delete(`${API_URL}/announcements/${id}`);
+      set((state) => ({ announcements: state.announcements.filter(a => a.id !== id) }));
+    } catch (error) {
+      console.error("Мэдэгдэл устгахад алдаа гарлаа", error);
+    }
+  },
+
+  addGalleryItem: async (item) => {
+    try {
+      const res = await axios.post(`${API_URL}/gallery`, item);
+      set((state) => ({ gallery: [res.data, ...state.gallery] }));
+    } catch (error) {
+      console.error("Зураг нэмэхэд алдаа гарлаа", error);
+    }
+  },
+
+  deleteGalleryItem: async (id) => {
+    try {
+      await axios.delete(`${API_URL}/gallery/${id}`);
+      set((state) => ({ gallery: state.gallery.filter(g => g.id !== id) }));
+    } catch (error) {
+      console.error("Зураг устгахад алдаа гарлаа", error);
     }
   }
 }));

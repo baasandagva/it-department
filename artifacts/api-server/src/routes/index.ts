@@ -12,7 +12,9 @@ const DB_FILE = path.join(process.cwd(), "data.json");
 let db = {
     students: [] as any[],
     teachers: [] as any[],
-    schedules: {} as any
+    schedules: {} as any,
+    announcements: [] as any[],
+    gallery: [] as any[]
 };
 
 if (fs.existsSync(DB_FILE)) {
@@ -74,6 +76,34 @@ router.post("/teachers", (req, res) => {
 });
 router.delete("/teachers/:id", (req, res) => {
     db.teachers = db.teachers.filter(t => t.id !== req.params.id);
+    saveDB();
+    res.status(200).json({ success: true });
+});
+
+// Мэдэгдэл (Announcements)
+router.get("/announcements", (req, res) => res.json(db.announcements));
+router.post("/announcements", (req, res) => {
+    const newAnn = { id: Date.now().toString(), ...req.body };
+    db.announcements.push(newAnn);
+    saveDB();
+    res.status(201).json(newAnn);
+});
+router.delete("/announcements/:id", (req, res) => {
+    db.announcements = db.announcements.filter(a => a.id !== req.params.id);
+    saveDB();
+    res.status(200).json({ success: true });
+});
+
+// Цомог (Gallery)
+router.get("/gallery", (req, res) => res.json(db.gallery));
+router.post("/gallery", (req, res) => {
+    const newItem = { id: Date.now().toString(), ...req.body };
+    db.gallery.push(newItem);
+    saveDB();
+    res.status(201).json(newItem);
+});
+router.delete("/gallery/:id", (req, res) => {
+    db.gallery = db.gallery.filter(g => g.id !== req.params.id);
     saveDB();
     res.status(200).json({ success: true });
 });

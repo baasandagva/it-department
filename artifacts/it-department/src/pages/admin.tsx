@@ -457,6 +457,7 @@ export default function Admin() {
                 <div className="bg-card border border-border p-6 rounded-2xl mb-8">
                   <form onSubmit={handleAddGallery} className="space-y-4">
                     <input required name="title" placeholder="Зургийн гарчиг" className="w-full bg-background border border-border rounded-lg px-3 py-2" />
+                    <textarea required name="description" placeholder="Зургийн тайлбар" className="w-full bg-background border border-border rounded-lg px-3 py-2" rows={3} />
                     <input required name="image" type="file" accept="image/*" className="w-full" />
                     <button type="submit" className="bg-primary text-primary-foreground px-6 py-2 rounded-lg font-bold">Нэмэх</button>
                   </form>
